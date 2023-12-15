@@ -12,8 +12,6 @@ library(readtext)
 library(openai)
 library(reticulate)
 
-#source("openai_call.R")
-#source("together_mixtral_call.R")
 source_python("llama_call.py")
 source("examples.R")
 
@@ -23,19 +21,27 @@ ui <- fluidPage(
   
   title = "LLMLinelist: LLM-Assisted Processing of Free-Text Outbreak Reports to Tabular Data",
   
+  tags$head(
+    tags$style(HTML("
+      body {
+        margin-left: 100px;
+        margin-right: 100px;
+      }
+    "))
+  ),
   # Title and subtitle
   titlePanel(
     column(12,
            h1("LLMLinelist: LLM-Assisted Processing of Free-Text Outbreak Reports to Tabular Data"),
-           h5("This is work in progress demonstrating the use of open-source LLMs for the automatic extraction of information on cases and contacts from free-text outbreak reports to enable rapid analysis and enhance situational awareness.", width = '100%'),
-           h5("Developed by Billy Quilty, Research Fellow, LSHTM"),
+           h5("This app demonstrates the use of open-source LLMs for the automatic extraction of information on cases and contacts from free-text outbreak reports to enable rapid analysis and enhance situational awareness.", width = '100%'),
+           h5(strong("Warning: this is a work in progress and hence there will be bugs. LLMs are not perfect and are prone to hallucination (especially if the input data is vague or unclear), so please double-check any output generated."), width = '100%'),
+           h6("Billy Quilty, Department of Infectious Disease Epidemiology and Dynamics, LSHTM"),
     ),
   ),
   
   # Sidebar layout for input
   sidebarLayout(
     sidebarPanel(
-      width = 4,
       style = "background-color:#ecf0f1;",
       textAreaInput("input_text", 
                     label = "Paste outbreak report (or choose an example):",
@@ -54,16 +60,17 @@ ui <- fluidPage(
       tabsetPanel(
         tabPanel("Table", 
                  fluidRow(
-                   column(12,
-                          shinyjs::hidden(div(id = 'loading', withSpinner(DTOutput("output_table", width = '100%'),type=8,color.background ="#ecf0f1")))
+                   column(11,
+                   shinyjs::hidden(div(id = 'loading', withSpinner(DTOutput("output_table", width = '100%'),type=8,color.background ="#ecf0f1"))
                    )
+                 )
                  )
         ),
         
         tabPanel("Timeline", 
                  fluidRow(
-                   column(12,
-                          plotOutput("timeline_plot", width = "100%", height = "400px")
+                   column(11,
+                   plotOutput("timeline_plot", width = "100%", height = "400px")
                    )
                  )
         )
@@ -71,6 +78,7 @@ ui <- fluidPage(
     )
   )
 )
+
 
 server <- function(input, output, session) {
   observe({

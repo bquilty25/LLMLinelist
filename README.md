@@ -1,5 +1,7 @@
 # LLMLinelist: LLM-Assisted Processing of Free-Text Outbreak Reports to Tabular Data
 
+![A screenshot of the app](screenshot.png)
+
 ## Overview
 
 This Shiny app is designed to demonstrate the LLM-assisted processing of free-text outbreak reports into epidemiologically useful tabular data - i.e., a linelist. It utilizes a small open-source LLM run locally on your machine to generate a table of cases and contacts from a free-text outbreak report. The app allows users to paste a report into the interface for automatic processing.
@@ -13,7 +15,7 @@ This Shiny app is designed to demonstrate the LLM-assisted processing of free-te
 -   R & R Studio (<https://www.r-project.org/>)
 -   LM Studio (<https://lmstudio.ai/>)
 -   Python (version 3.7 or higher)
--   A reasonably powerful machine (tested on a 2021 Macbook Pro M1 Pro with 16GB RAM)
+-   A reasonably powerful machine (tested on a 2021 Macbook Pro M1 Pro with 16GB RAM; a report took about 10-30 seconds to process)
 
 ### Installation
 
