@@ -26,7 +26,7 @@ ui <- fluidPage(
   # Title and subtitle
   titlePanel(
     column(12,
-           h1("LLMLineList: LLM-Assisted Processing of Free-Text Outbreak Reports to Tabular Data"),
+           h1("LLMLinelist: LLM-Assisted Processing of Free-Text Outbreak Reports to Tabular Data"),
            h5("This is work in progress demonstrating the use of open-source LLMs for the automatic extraction of information on cases and contacts from free-text outbreak reports to enable rapid analysis and enhance situational awareness.", width = '100%'),
            h5("Developed by Billy Quilty, Research Fellow, LSHTM"),
     ),
