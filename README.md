@@ -1,4 +1,4 @@
-# LLMLineList: LLM-Assisted Processing of Free-Text Outbreak Reports to Tabular Data
+# LLMLinelist: LLM-Assisted Processing of Free-Text Outbreak Reports to Tabular Data
 
 ## Overview
 
