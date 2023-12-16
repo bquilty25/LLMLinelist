@@ -60,7 +60,7 @@ ui <- fluidPage(
       tabsetPanel(
         tabPanel("Table", 
                  fluidRow(
-                   column(11,
+                   column(12,
                    shinyjs::hidden(div(id = 'loading', withSpinner(DTOutput("output_table", width = '100%'),type=8,color.background ="#ecf0f1"))
                    )
                  )
@@ -69,7 +69,7 @@ ui <- fluidPage(
         
         tabPanel("Timeline", 
                  fluidRow(
-                   column(11,
+                   column(12,
                    plotOutput("timeline_plot", width = "100%", height = "400px")
                    )
                  )
@@ -112,7 +112,7 @@ server <- function(input, output, session) {
     # Show loading indicator
     shinyjs::showElement(id = 'loading')
     
-    
+    browser()
     # Call the OpenAI API 
     result <- create_response(content)
     

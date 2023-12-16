@@ -13,9 +13,10 @@ def create_response(prompt):
     model="local-model", # this field is currently unused
     messages=[
       {"role": "system", "content": system_prompt},
-      {"role": "user", "content": prompt}
+      {"role": "user", "content": prompt + "Output:\n"}
     ],
-    temperature=0.7,
+    stop = ["\n\n"],
+    temperature=0,
   )
 
   return completion.choices[0].message.content
