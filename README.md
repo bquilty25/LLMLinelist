@@ -6,7 +6,10 @@
 
 This Shiny app is designed to demonstrate the LLM-assisted processing of free-text outbreak reports into epidemiologically useful tabular data - i.e., a linelist. It utilizes a small open-source LLM run locally on your machine to generate a table of cases and contacts from a free-text outbreak report. The app allows users to paste a report into the interface for automatic processing.
 
-**Warning: this is a work in progress and hence there will be bugs. LLMs are not perfect and are prone to hallucination (especially if the input data is vague or unclear), so please double-check any output generated.**
+**Warning: this is a work in progress and hence there will be bugs. LLMs are not perfect and are prone to hallucination (especially if the input data is vague or unclear), so please double-check any output generated.
+
+Known bugs:
+Small local LLMs such as Llama 2 and Mistral 7B appear to have a much higher error rate than OpenAI models when requesting a specified format, e.g. CSV or JSON, causing the app to crash. Next steps are to modify to allow the choice of using local or OpenAI API models (or upgrade compute infrastructure to allow for larger local models to be used).**
 
 ## Getting Started
 
