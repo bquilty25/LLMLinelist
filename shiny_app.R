@@ -1,6 +1,7 @@
 library(shiny)
 library(reticulate)
 library(shinyjs)
+library(listviewer)
 library(future)
 library(shinycssloaders)
 library(shinythemes)
@@ -11,9 +12,12 @@ library(tidyr)
 library(readtext)
 library(openai)
 library(reticulate)
+library(stringr)
+library(readr)
 
-source_python("llama_call.py")
 source("examples.R")
+source("utils.R")
+source("llm_call_functions.R")
 
 ui <- fluidPage(
   useShinyjs(),  # Enable shinyjs
@@ -51,6 +55,9 @@ ui <- fluidPage(
       radioButtons("example_btn", "Examples:",
                    choices = c("Example 1", "Example 2", "Example 3"),
                    selected = "Example 1"),
+      selectInput("call_option", "Choose LLM:",
+                  choices = c("Local LLM", "gpt-3.5-turbo"),
+                  selected = "Local LLM"),
      #fileInput("input_file", "or upload .docx File:", accept = c(".docx"), width = "100%"),
       actionButton("process_btn", "Process Text", class = "btn-primary", width = "100%")
     ),
@@ -58,16 +65,19 @@ ui <- fluidPage(
     # Main content area
     mainPanel(
       tabsetPanel(
-        tabPanel("Table", 
+        tabPanel("Result", 
                  fluidRow(
                    column(12,
-                   shinyjs::hidden(div(id = 'loading', withSpinner(DTOutput("output_table", width = '100%'),type=8,color.background ="#ecf0f1"))
+                          jsoneditOutput("jsed")
+                 )
+                 ),
+                 fluidRow(
+                   column(12,
+                          downloadButton("download_csv", "Download CSV")
                    )
                  )
-                 )
         ),
-        
-        tabPanel("Timeline", 
+        tabPanel("Timeline",
                  fluidRow(
                    column(12,
                    plotOutput("timeline_plot", width = "100%", height = "400px")
@@ -81,6 +91,9 @@ ui <- fluidPage(
 
 
 server <- function(input, output, session) {
+  
+  hideElement(id = "download_csv")
+  
   observe({
     if (!is.null(input$input_file)) {
       content <- readtext(input$input_file$datapath)
@@ -90,6 +103,7 @@ server <- function(input, output, session) {
   
   observeEvent(input$example_btn, {
     example_text <- switch(input$example_btn,
+                           "Example 0.5" = example0.5, 
                            "Example 1" = example1,
                            "Example 2" = example2,
                            "Example 3" = example3)
@@ -103,69 +117,83 @@ server <- function(input, output, session) {
   })
   
   observeEvent(input$process_btn, {
-    content <- if (!is.null(input$input_file)) {
-      readtext(input$input_file$datapath)
-    } else {
-      input$input_text
-    }
     
-    # Show loading indicator
-    shinyjs::showElement(id = 'loading')
-    
-    browser()
-    # Call the OpenAI API 
-    result <- create_response(content)
-    
-    # Parse CSV string
-    csv_data <- read.csv(text = result)
-    
-    # Render CSV data as a table
-    output$output_table <- renderDataTable(
-      csv_data, extensions = 'Buttons', options = list(scrollX = TRUE,
-                                                       dom = 'Bfrtip',
-                                                       buttons = c('copy', 'csv', 'excel', 'pdf', 'print'))
-    )
-    
-    # When processing is complete, re-enable the button and hide loading indicator
-    onStop(function() {
-      shinyjs::enable("process_btn")
-      shinyjs::hideElement(id = 'loading')
-    })
-    
-    # Report errors if any
     tryCatch({
+      content <- input$input_text
+      # Disable button while processing
+      showPageSpinner()
+      disable("process_btn")
+      
+      # Call function based on the selected option
+      if (input$call_option == "Local LLM") {
+        result <- local_llm_call(content)
+      } else {
+        # Call OpenAI function (replace with your actual OpenAI function call)
+        result <- openai_call(content)
+      }
+      
+      
+      # Process JSON
+      pretty_json <- str_trim(result) %>% paste0("[",.,"]") 
+      
+      # Render pretty printed JSON
+      output$jsed <- renderJsonedit({
+        jsonedit(
+          pretty_json,
+          "onChange" = htmlwidgets::JS('function(after, before, patch){
+        console.log( after.json )
+      }')
+        )
+        
+      })
+      
+      # Convert JSON to long data frame
+      df <- fromJSON(pretty_json)
+      
+      df_long <- unnest(df,cols="Contacts",names_sep = "_") 
+      
+      # Write data frame to CSV
+      csv_content <- capture.output(write.csv(df_long, row.names = FALSE))
+      
+      # Enable download button
+      output$download_csv <- downloadHandler(
+        filename = function() {
+          "output.csv"
+        },
+        content = function(file) {
+          writeLines(csv_content, file)
+        }
+      )
+      
+      # Render timeline plot
+      output$timeline_plot <- renderPlot({
+        # Call a function to generate the timeline plot
+        generate_timeline_plot(df)
+      })
+      
     }, error = function(e) {
+      # Show error message
       showModal(modalDialog(
         title = "Error",
-        paste("An error occurred:", e$message),
+        "An error occurred while processing the text.",
+        tags$br(),
+        "Error message:",
+        tags$br(),
+        tags$code(e$message),
+        tags$br(),
+        "Please try again.",
         easyClose = TRUE
       ))
-    })
+    }, finally = {
+      
+      hidePageSpinner()
+      
+      # Re-enable button
+      showElement(id = "download_csv")
+      enable("process_btn")
     
-    # New output for timeline plot
-    output$timeline_plot <- renderPlot({
-      # Call a function to generate the timeline plot
-      timeline_plot <- generate_timeline_plot()
-      print(timeline_plot)
-    })
-    
-    # Function to generate timeline plot
-    generate_timeline_plot <- function() {
-      #browser()
-      # Assuming csv_data contains your parsed CSV data
-      # You may need to adjust the column names based on your actual data
-      csv_data %>% 
-        pivot_longer(contains("date"),names_to="dates") %>% 
-        mutate(value=as.Date(value,format = "%d %B %Y")) %>% 
-        drop_na(value) %>% 
-        ggplot( aes(x = value, y = Name)) +
-        geom_point(aes(colour=dates))+
-        scale_x_date(breaks = "2 days",date_labels = "%d %b %y")+
-        labs(x = "Date", y = "Name") +
-        theme_minimal()+
-        ggpubr::rotate_x_text(angle = 45)
-    }
   })
+})
 }
 
 shinyApp(ui, server)
