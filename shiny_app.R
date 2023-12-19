@@ -28,8 +28,8 @@ ui <- fluidPage(
   tags$head(
     tags$style(HTML("
       body {
-        margin-left: 100px;
-        margin-right: 100px;
+        margin-left: 5%;
+        margin-right: 5%;
       }
     "))
   ),
@@ -46,7 +46,7 @@ ui <- fluidPage(
   # Sidebar layout for input
   sidebarLayout(
     sidebarPanel(
-      style = "background-color:#ecf0f1;",
+      style = "background-color:#ecf0f1; max-height:90vh",
       textAreaInput("input_text", 
                     label = "Paste outbreak report (or choose an example):",
                     rows = 10,
@@ -64,15 +64,19 @@ ui <- fluidPage(
     
     # Main content area
     mainPanel(
+      style = "max-height:90vh",
       tabsetPanel(
         tabPanel("Result", 
                  fluidRow(
                    column(12,
-                          jsoneditOutput("jsed")
+                          jsoneditOutput("jsed", width = "100%", height = "450px")
                  )
                  ),
                  fluidRow(
                    column(12,
+                          align = "right",
+                          style = "margin-bottom: 10px;",
+                          style = "margin-top: 10px;",
                           downloadButton("download_csv", "Download CSV")
                    )
                  )
