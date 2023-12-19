@@ -1,4 +1,6 @@
-system_prompt = readLines("system_prompt.txt",warn=F)
+system_prompt = read_file("system_prompt.txt")
+
+example0.5 = "Carlos (M, 42) met his colleague Maria (29, F) at a workplace in Barcelona, Spain, (41.3851, 2.1734) on 12 November 2022. Carlos had been feeling unwell for two days. On 18 November, Carlos was admitted to Hospital Clinic Barcelona and tested positive for H1N1 influenza. He was released from the hospital on 25 November. Maria developed symptoms on 19 November, and their flu test came back positive two days later. They recovered at home without requiring hospitalization on the 26 November."
 
 example1 = "Carlos (M, 42) met his colleagues Maria (29, F), Javier (35, M), and Marta (F, 32) at a workplace in Barcelona, Spain, (41.3851, 2.1734) on 12 November 2022. Carlos had been feeling unwell for two days. On 18 November, Carlos was admitted to Hospital Clinic Barcelona and tested positive for H1N1 influenza. He was released from the hospital on 25 November. Maria and Javier developed symptoms on 19 November, and their flu tests came back positive two days later. They both recovered at home without requiring hospitalization by 26 November and 1 December, respectively. Marta fell ill on 20 November and tested positive on 21 November. She was admitted to Hospital Clinic Barcelona on 23 November and was discharged after a week."
 

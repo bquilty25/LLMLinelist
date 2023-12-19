@@ -47,18 +47,28 @@ Small local LLMs such as Llama 2 and Mistral 7B appear to have a much higher err
     pip install openai
     ```
 
-## Installing and running the local LLM
+## Option 1: Installing and running the local LLM
 
-### Step 1: Install LM Studio
+1. Install LM Studio: Follow the instructions on the [official LM Studio website](https://www.openai.com/lm-studio/) to download and install LM Studio.
 
-Follow the instructions on the [official LM Studio website](https://www.openai.com/lm-studio/) to download and install LM Studio.
+2. Download Llama 2 7b Model (or other model of your choice) and host a local inference server
+3.  Open LM Studio.
+4.  Navigate to the Search tab and search for "TheBloke/Llama-2-7B-Chat-GGUF" (not GGUML!)
+5.  Download the "Q5_K_M" model (4.78GB, recommended).
+6.  Choose an appropriate preset on the right-hand side (e.g., "ChatML") - some perform better than others.
+6.  Navigate to the "Local Server" tab ("\<-\>" icon) and click "Start Server".
 
-### Step 2: Download Llama 2 7b Model (or other model of your choice) and host a local inference server
+## Option 2: Run via GPT-4 using the OpenAI API
 
-1.  Open LM Studio.
-2.  Navigate to the Search tab and search for "TheBloke/Llama-2-7B-Chat-GGUF" (not GGUML!)
-3.  Download the "Q5_K_M" model (4.78GB, recommended).
-4.  Navigate to the "Local Server" tab ("\<-\>" icon) and click "Start Server".
+1. Sign up for an OpenAI account.
+2. Navigate to the "API Keys" tab and create a new API key.
+3. Copy your OpenAI API key and run the following command in R (replacing `sk-xxx` with your API key) to add it to your R environment:
+
+``` r
+Sys.setenv(OPENAI_API_KEY = "sk-xxx")
+```
+
+Note: this costs money, so make sure you monitor your usage and set a budget.
 
 ### Running the app
 
