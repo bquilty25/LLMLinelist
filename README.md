@@ -8,9 +8,6 @@ This Shiny app is designed to demonstrate the LLM-assisted processing of free-te
 
 **Warning: this is a work in progress and hence there will be bugs. LLMs are not perfect and are prone to hallucination (especially if the input data is vague or unclear), so please double-check any output generated.**
 
-**Known bugs:
-Small local LLMs such as Llama 2 and Mistral 7B appear to have a much higher error rate than OpenAI models when requesting a specified format, e.g. CSV or JSON, causing the app to crash. Next steps are to modify to allow the choice of using local or OpenAI API models (or upgrade compute infrastructure to allow for larger local models to be used).**
-
 ## Getting Started
 
 ### Prerequisites
@@ -30,35 +27,18 @@ Small local LLMs such as Llama 2 and Mistral 7B appear to have a much higher err
 
 2.  Open the R project in your preferred R development environment (RStudio recommended when using Shiny).
 
-### Install the OpenAI Python library
-
-1.  Open a new terminal in R.
-
-2.  Run the following commands to create and activate a virtual environment:
-
-    ``` bash
-    python -m venv aienv
-    source aienv/bin/activate  # On Windows, use 'myenv\Scripts\activate'
-    ```
-
-3.  Install the OpenAI Python library:
-
-    ``` bash
-    pip install openai
-    ```
-
 ## Option 1: Installing and running the local LLM
 
 1. Install LM Studio: Follow the instructions on the [official LM Studio website](https://www.openai.com/lm-studio/) to download and install LM Studio.
 
 2. Download Llama 2 7b Model (or other model of your choice) and host a local inference server
 3.  Open LM Studio.
-4.  Navigate to the Search tab and search for "TheBloke/Llama-2-7B-Chat-GGUF" (not GGUML!)
-5.  Download the "Q5_K_M" model (4.78GB, recommended).
-6.  Choose an appropriate preset on the right-hand side (e.g., "ChatML") - some perform better than others.
+4.  Navigate to the Search tab and search for "TheBloke/TheBloke/Mistral-7B-Instruct-v0.2-GGUF" (GGUML not yet supported by LMStudio)
+5.  Download the "Q6_K" model (5.94GB, recommended).
+6.  Choose an appropriate preset on the right-hand side (e.g., "Phi 2") - some perform better than others.
 6.  Navigate to the "Local Server" tab ("\<-\>" icon) and click "Start Server".
 
-## Option 2: Run via GPT-4 using the OpenAI API
+## Option 2: Run via GPT-3.5/4 using the OpenAI API
 
 1. Sign up for an OpenAI account.
 2. Navigate to the "API Keys" tab and create a new API key.
