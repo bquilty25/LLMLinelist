@@ -96,7 +96,7 @@ ui <- fluidPage(
 
 server <- function(input, output, session) {
   
-  hideElement(id = "download_csv")
+  shinyjs::hideElement(id = "download_csv")
   
   observe({
     if (!is.null(input$input_file)) {
@@ -125,8 +125,8 @@ server <- function(input, output, session) {
     tryCatch({
       content <- input$input_text
       # Disable button while processing
-      showPageSpinner()
-      disable("process_btn")
+      shinycssloaders::showPageSpinner()
+      shinyjs::disable("process_btn")
       
       # Call function based on the selected option
       if (input$call_option == "Local LLM") {
@@ -152,9 +152,9 @@ server <- function(input, output, session) {
       })
       
       # Convert JSON to long data frame
-      df <- fromJSON(pretty_json)
+      df <- jsonlite::fromJSON(pretty_json)
       
-      df_long <- unnest(df,cols="Contacts",names_sep = "_") 
+      df_long <- tidyr::unnest(df,cols="Contacts",names_sep = "_") 
       
       # Write data frame to CSV
       csv_content <- capture.output(write.csv(df_long, row.names = FALSE))
@@ -190,11 +190,11 @@ server <- function(input, output, session) {
       ))
     }, finally = {
       
-      hidePageSpinner()
+      shinycssloaders::hidePageSpinner()
       
       # Re-enable button
-      showElement(id = "download_csv")
-      enable("process_btn")
+      shinyjs::showElement(id = "download_csv")
+      shinyjs::enable("process_btn")
     
   })
 })

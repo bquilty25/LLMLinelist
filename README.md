@@ -12,7 +12,7 @@ This Shiny app is designed to demonstrate the LLM-assisted processing of free-te
 
 ### Prerequisites
 
--   R & R Studio (<https://www.r-project.org/>)
+-   R & R Studio (<https://posit.co/download/rstudio-desktop/>)
 -   LM Studio (<https://lmstudio.ai/>)
 -   Python (version 3.7 or higher)
 -   A reasonably powerful machine (tested on a 2021 Macbook Pro M1 Pro with 16GB RAM; a report took about 10-30 seconds to process)
@@ -22,20 +22,18 @@ This Shiny app is designed to demonstrate the LLM-assisted processing of free-te
 1.  Clone this repository to your local machine:
 
     ``` bash
-    git clone https://github.com/bquilty25/ai_contact_tracing_diaries.git
+    git clone https://github.com/bquilty25/LLMLinelist.git
     ```
 
 2.  Open the R project in your preferred R development environment (RStudio recommended when using Shiny).
 
 ## Option 1: Installing and running the local LLM
 
-1. Install LM Studio: Follow the instructions on the [official LM Studio website](https://www.openai.com/lm-studio/) to download and install LM Studio.
-
-2. Download Llama 2 7b Model (or other model of your choice) and host a local inference server
-3.  Open LM Studio.
-4.  Navigate to the Search tab and search for "TheBloke/TheBloke/Mistral-7B-Instruct-v0.2-GGUF" (GGUML not yet supported by LMStudio)
-5.  Download the "Q6_K" model (5.94GB, recommended).
-6.  Choose an appropriate preset on the right-hand side (e.g., "Phi 2") - some perform better than others.
+1. Install LM Studio: Follow the instructions on the [official LM Studio website](<https://lmstudio.ai/>) to download and install LM Studio.
+2.  Open LM Studio.
+3.  Navigate to the Search tab and search for "TheBloke/Mistral-7B-Instruct-v0.2-GGUF" (GGUML not yet supported by LMStudio)
+4.  Download the "Q6_K" model (5.94GB, recommended).
+5.  Choose an appropriate preset on the right-hand side ("Phi 2" works best).
 6.  Navigate to the "Local Server" tab ("\<-\>" icon) and click "Start Server".
 
 ## Option 2: Run via GPT-3.5/4 using the OpenAI API
@@ -54,7 +52,10 @@ Note: this costs money, so make sure you monitor your usage and set a budget.
 
 1.  Return to R and install the required R packages:
 
-    `r install.packages(c("shiny", "reticulate", "shinyjs", "future", "shinycssloaders", "shinythemes", "DT", "tidyverse", "openai", "ggplot2", "ggpubr"))`
+    ```r 
+    install.packages(c("shiny", "shinyjs", "future", "shinythemes", "DT", "tidyverse", "ggpubr", "remotes"))
+    remotes::install_github("daattali/shinycssloaders")
+    ```
 
 2.  Run the Shiny app:
 
