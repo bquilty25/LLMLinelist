@@ -64,15 +64,10 @@ Note: this costs money, so make sure you monitor your usage and set a budget.
 
 #### Usage
 
-1.  Open the app in your web browser.
-
-2.  Enter text, or choose an example input.
-
-3.  Click the "Process Text" button to initiate the processing.
-
-4.  Explore the generated table and timeline plot in their respective tabs.
-
-5.  Export table in your required format.
+1.  Enter text, or choose an example input.
+2.  Click the "Process Text" button to initiate the processing.
+3.  Explore the generated table and timeline plot in their respective tabs.
+4.  Export table in csv.
 
 ## Contributing
 
