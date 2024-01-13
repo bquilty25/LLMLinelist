@@ -14,8 +14,7 @@ This Shiny app is designed to demonstrate the LLM-assisted processing of free-te
 
 -   R & R Studio (<https://posit.co/download/rstudio-desktop/>)
 -   LM Studio (<https://lmstudio.ai/>)
--   Python (version 3.7 or higher)
--   A reasonably powerful machine (tested on a 2021 Macbook Pro M1 Pro with 16GB RAM; a report took about 10-30 seconds to process)
+-   A reasonably powerful machine (tested on a 2021 Macbook Pro (M1 Pro with 16GB RAM); a report took about 10-30 seconds to process)
 
 ### Installation
 
