@@ -26,16 +26,16 @@ This Shiny app is designed to demonstrate the LLM-assisted processing of free-te
 
 2.  Open the R project in your preferred R development environment (RStudio recommended when using Shiny).
 
-## Option 1: Installing and running the local LLM
+#### Option 1: Installing and running the local LLM
 
-1. Install LM Studio: Follow the instructions on the [official LM Studio website](<https://lmstudio.ai/>) to download and install LM Studio.
+1. Install LM Studio: Follow the instructions on the [LM Studio website](<https://lmstudio.ai/>) to download and install LM Studio.
 2.  Open LM Studio.
 3.  Navigate to the Search tab and search for "TheBloke/Mistral-7B-Instruct-v0.2-GGUF" (GGUML not yet supported by LMStudio)
 4.  Download the "Q6_K" model (5.94GB, recommended).
 5.  Choose an appropriate preset on the right-hand side ("Phi 2" works best).
 6.  Navigate to the "Local Server" tab ("\<-\>" icon) and click "Start Server".
 
-## Option 2: Run via GPT-3.5/4 using the OpenAI API
+#### Option 2: Run via GPT-3.5/4 using the OpenAI API
 
 1. Sign up for an OpenAI account.
 2. Navigate to the "API Keys" tab and create a new API key.
@@ -62,7 +62,7 @@ Note: this costs money, so make sure you monitor your usage and set a budget.
     shiny::runApp()
     ```
 
-## Usage
+#### Usage
 
 1.  Open the app in your web browser.
 
